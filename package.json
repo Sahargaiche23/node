@@ -1,6 +1,19 @@
 {
   "dependencies": {
     "express": "^4.21.2",
-    "mongos": "^0.0.0"
-  }
+    "mongoose": "^8.9.1",
+    "mongos": "^0.0.0",
+    "socket.io": "^4.8.1",
+    "twig": "^1.17.1"
+  },
+  "name": "newapp4twin3-init-main",
+  "version": "1.0.0",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": ""
 }
