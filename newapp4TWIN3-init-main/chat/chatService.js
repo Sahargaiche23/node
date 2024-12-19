@@ -14,9 +14,27 @@ function sockeIO(server){
     var io = socket(server)
     io.on('connection', (socket)=>{
         console.log('user connected!');
-        socket.emit("msg","A new user has connected !")
+        socket.broadcast.emit("msg","A new user has connected !")//brodcast pour affiche a l'autre users connecte 
+        socket.on('send-msg',async(data)=>{
+            console.log(data);
+            io.emit('msg',data.name+ ":" +data.msg)
+            await new chat({
+                msg: data.msg,
+                date: new Date()
+            }).save()
+
     }
-)
+    )
+
+    socket.on('displaymsg',async()=>{
+        var msgs =await chat.find()
+       // console.log(data);
+        io.emit('msgList',msgs)
+    })
+    })
+    
+ 
+
 return io;
 }
 function chatView(req,res,next){

@@ -10,25 +10,34 @@ async function list(req,res,next){
     //res.end('User List')
 }
 
-const create =async (req,res,next)=>{
-    const { nom, email } = req.body 
-    console.log(req.body.nom);
-    console.log(req.params.age)
-    const { age } = req.params
+const create = async (req, res, next) => {
+    const { nom, email, age } = req.body; // Récupère 'nom', 'email' et 'age' du corps de la requête
+    console.log('add user');
+    
+    console.log(req.body);
     console.log(req.params);
+    
+
+    // Crée un nouvel utilisateur
     await new User({
         nom: nom,
         email: email,
         age: age
     }).save()
-      .then((data, err)=>{
-          if(err){
-              res.status(500).json(err)
-            }
-            console.log(data);
-      })
-    
-res.json('User added ! nom : '+ nom + ' email : '+ email+ ' age : '+ age)
+    .then((data) => {
+        console.log('Utilisateur ajouté:', data);
+        res.status(201).json({
+            message: 'Utilisateur ajouté avec succès',
+            user: data 
+        });
+    })
+    .catch((err) => {
+        console.log('Erreur lors de l\'ajout de l\'utilisateur:', err);
+        res.status(500).json({
+            message: 'Erreur lors de l\'ajout de l\'utilisateur',
+            error: err
+        });
+    });
 }
 
 const update = async (req, res, next)=>{
@@ -109,5 +118,6 @@ const findByAge = async (req, res, next) => {
             res.status(500).json({ message: 'Error finding user by age', error: err });
         });
 };
+
 
 module.exports = { create, list, update, deleteU, findById, findByNom, findByEmail, findByAge }
